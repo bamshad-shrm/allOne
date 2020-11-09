@@ -6,6 +6,8 @@ import pandas as pd
 filesFolder="C:/Users/blue/Documents/study/BI/Thesis/allOne/lod/first/"
 # Folder's path of the graphs
 graphFolder="C:/Users/blue/Documents/study/BI/Thesis/allOne/graph/first/"
+# Folder's path of the lod statistics
+lodStatisticsFolder="C:/Users/blue/Documents/study/BI/Thesis/allOne/lodStatistics/first/"
 # number of replicate
 numberOfReplicate = 20
 replicateNumbers = range(numberOfReplicate+1)
@@ -14,6 +16,8 @@ rewardModes = [0,1,2,3]
 # group modes:
 groupModes = [0,1]
 # End of settings
+
+# 1. Finding the maximum length of the lod files 
 
 lodLengths = []
 maxLodLengths = 0
@@ -26,7 +30,9 @@ for rewardMode in rewardModes:
             lodLengths.append(len(df.index))
 
 maxLodLengths = max(lodLengths)
-x = range(0, maxLodLengths*100, 100)
+
+# 2. Making the lod files same number of rows
+# We do this step to avoid dimension error in plotting 
 
 for rewardMode in rewardModes:
     for groupMode in groupModes:
@@ -39,7 +45,13 @@ for rewardMode in rewardModes:
                     newRow[:1] = newRow[:1] + 100
                     df = df.append(newRow)
                 df.to_csv(filesFolder+fileName+".csv", index=False)
- 
+
+'''
+
+# 3. Ploting the generations (x axis) and scores (y axis) 
+
+x = range(0, maxLodLengths*100, 100)
+
 for rewardMode in rewardModes:
     for groupMode in groupModes:
         plotName = "LOD"+"_"+str(rewardMode)+"_"+str(groupMode)
@@ -54,7 +66,77 @@ for rewardMode in rewardModes:
         plt.savefig(graphFolder+plotName+'.png')    
         plt.clf()            
 
+'''
+
+# 4.
+
+# 4.1
+
+'''
+
+rawScores = []
+minimums = []
+maximums = []
+averages = []
+sums = []
+
+for rewardMode in rewardModes:
+    for groupMode in groupModes:
+        plotName = "LOD"+"_"+str(rewardMode)+"_"+str(groupMode)
+        for replicateNumber in replicateNumbers:
+            fileName = "LOD"+"_"+str(rewardMode)+"_"+str(groupMode)+"_"+str(replicateNumber)
+            df = pd.read_csv(filesFolder+fileName+".csv")
+            for i in range(maxLodLengths):
+                df["rawScores"][i] = df["rawScores"][i].replace('[','')
+                df["rawScores"][i] = df["rawScores"][i].replace(']','')
+                rawIntegers = df["rawScores"][i].split(',')
+                rawScores =[float(rawIntegers[0]),float(rawIntegers[1]),float(rawIntegers[2]),float(rawIntegers[3])]
+                minimums.append(min(rawScores))
+                maximums.append(max(rawScores))
+                averages.append(sum(rawScores)/4)
+                sums.append(sum(rawScores))
+            df['minimumScore'] = minimums
+            df['maximumScore'] = maximums
+            df['averageOfScores'] = averages
+            df['sumOfScores'] = sums
+            df.to_csv(filesFolder+fileName+".csv", index=False)
+            minimums.clear()
+            maximums.clear()
+            averages.clear()
+            sums.clear()
+'''
+
+# 4.2
+
+allReplicates = pd.DataFrame (columns = ['generation','ID','score','rawScores','ownScore','minimumScore','maximumScore','averageOfScores','sumOfScores'])
+
+rewardGroupModes = []
+meanOwnScores = []
+meanMinimums = []
+meanMaximums = []
+meanAverages = []
+meanSums = []
+
+for rewardMode in rewardModes:
+    for groupMode in groupModes:
+        for replicateNumber in replicateNumbers:
+            fileName = "LOD"+"_"+str(rewardMode)+"_"+str(groupMode)+"_"+str(replicateNumber)
+            df = pd.read_csv(filesFolder+fileName+".csv")
+            allReplicates = allReplicates.append(df)
+        rewardGroupModes.append("LOD"+"_"+str(rewardMode)+"_"+str(groupMode))
+        meanOwnScores.append(sum(allReplicates["ownScore"])/((numberOfReplicate+1)*maxLodLengths))
+        meanMinimums.append(sum(allReplicates["minimumScore"])/((numberOfReplicate+1)*maxLodLengths))
+        meanMaximums.append(sum(allReplicates["maximumScore"])/((numberOfReplicate+1)*maxLodLengths))
+        meanAverages.append(sum(allReplicates["averageOfScores"])/((numberOfReplicate+1)*maxLodLengths))
+        meanSums.append(sum(allReplicates["sumOfScores"])/((numberOfReplicate+1)*maxLodLengths))
+        allReplicates.drop(allReplicates.index, inplace=True)
+
+dict = {'rewardGroupModes': rewardGroupModes, 'meanOwnScores': meanOwnScores, 'meanMinimums': meanMinimums,'meanMaximums': meanMaximums,'meanAverages': meanAverages,'meanSums': meanSums}  
+    
+lodsStatistics = pd.DataFrame(dict)
+
+lodsStatistics.to_csv(lodStatisticsFolder+"lodStatistics"+".csv", index=False)
 
 
 
-  
+
