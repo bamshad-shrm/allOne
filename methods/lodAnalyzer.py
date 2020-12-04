@@ -48,7 +48,7 @@ for rewardMode in rewardModes:
 
 
 
-# 3. Ploting the generations (x axis) and scores (y axis) 
+# 3. Plotting the graphs with generations as x axis and score for y axis
 
 x = range(0, maxLodLengths*100, 100)
 
@@ -68,11 +68,9 @@ for rewardMode in rewardModes:
 
 
 
-# 4.
+# 4. Calculation of mean of minimum, maximum, sum and average of each conditoin (like 0_0, 0_1, 1_0, 1_1, ....). 
 
-# 4.1
-
-
+# 4.1 Adding the minimum, maximum, sum and average of rowScores to each row (each generation)
 
 rawScores = []
 minimums = []
@@ -106,7 +104,7 @@ for rewardMode in rewardModes:
             sums.clear()
 
 
-# 4.2
+# 4.2 Calculation of the mean of minimum, maximum, sum and average of all the replicates of each condition.
 
 allReplicates = pd.DataFrame (columns = ['generation','ID','score','rawScores','ownScore','minimumScore','maximumScore','averageOfScores','sumOfScores'])
 
