@@ -1,5 +1,7 @@
 import matplotlib.pyplot as plt 
 import pandas as pd
+import numpy
+import math  
 
 # Settings:
 # Folder's path of the movement files.
@@ -21,7 +23,9 @@ groupModes = [0,1]
 #  II. Number of times that b is not zero
 
 movStatisticsLog = pd.DataFrame (columns = ['fileName','movLength*4','aBiggerThanThree','aBiggerThanThreePercentage','aZero','aZeroPercentage','bNotZero','bNotZeroPercentage'])
-movStatistics = pd.DataFrame (columns = ['rewardGroup','meanABiggerThanThreePercentage','meanAZeroPercentage','meanBNotZeroPercentage'])
+movStatistics = pd.DataFrame (columns = ['rewardGroup','meanABiggerThanThreePercentage','stdErrMeanABiggerThanThreePercentage',
+                                         'meanAZeroPercentage','stdErrMeanAZeroPercentage',
+                                         'meanBNotZeroPercentage','stdErrMeanBNotZeroPercentage'])
 
 movLength = 0
 aBiggerThanThree = 0
@@ -90,8 +94,11 @@ for rewardMode in rewardModes:
         #print(sum(aBiggerThanThreePercentageS)/(numberOfReplicate+1))
         movStatistics = movStatistics.append({'rewardGroup': rewardGroup,
                                               'meanABiggerThanThreePercentage': sum(aBiggerThanThreePercentageS)/(numberOfReplicate+1),
+                                              'stdErrMeanABiggerThanThreePercentage': numpy.std(aBiggerThanThreePercentageS)/math.sqrt(numberOfReplicate+1),  
                                               'meanAZeroPercentage': sum(aZeroPercentageS)/(numberOfReplicate+1),
-                                              'meanBNotZeroPercentage': sum(bNotZeroPercentageS)/(numberOfReplicate+1)
+                                              'stdErrMeanAZeroPercentage': numpy.std(aZeroPercentageS)/math.sqrt(numberOfReplicate+1),
+                                              'meanBNotZeroPercentage': sum(bNotZeroPercentageS)/(numberOfReplicate+1),
+                                              'stdErrMeanBNotZeroPercentage': numpy.std(bNotZeroPercentageS)/math.sqrt(numberOfReplicate+1),
                                               },
                                              ignore_index=True)
         aBiggerThanThreePercentageS.clear()
