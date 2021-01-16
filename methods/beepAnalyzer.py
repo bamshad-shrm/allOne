@@ -1,5 +1,6 @@
 import matplotlib.pyplot as plt 
 import pandas as pd
+from scipy import stats
 
 # Settings:
 # Folder's path of the LOD files.
@@ -81,7 +82,8 @@ for rewardMode in rewardModes:
 
 allReplicates = pd.DataFrame (columns = ['replicate','m0','m1','m2','m3','b0','b1','b2','b3',
                                          'mMinimumScore','bMinimumScore','mMaximumScore','bMaximumScore',
-                                         'mSumOfScores','bSumOfScores','mAverageOfScores','bAverageOfScores'])
+                                         'mSumOfScores','bSumOfScores','mAverageOfScores','bAverageOfScores',
+                                         'MinimumsKs','MaximumsKs','AveragesKs','SumsKs'])
 
 rewardGroupModes = []
 
@@ -94,6 +96,11 @@ mMeanMinimums = []
 mMeanMaximums = []
 mMeanAverages = []
 mMeanSums = []
+
+MinimumsKs = []
+MaximumsKs = []
+AveragesKs = []
+SumsKs = []
 
 for rewardMode in rewardModes:
     for groupMode in groupModes:
@@ -111,6 +118,11 @@ for rewardMode in rewardModes:
         mMeanAverages.append(sum(allReplicates["mAverageOfScores"])/((numberOfReplicate+1)*(numberOfReplicate+1)))
         mMeanSums.append(sum(allReplicates["mSumOfScores"])/((numberOfReplicate+1)*(numberOfReplicate+1)))
 
+        MinimumsKs.append(stats.ks_2samp(allReplicates["bMinimumScore"],allReplicates["mMinimumScore"]))
+        MaximumsKs.append(stats.ks_2samp(allReplicates["bMaximumScore"],allReplicates["mMaximumScore"]))
+        AveragesKs.append(stats.ks_2samp(allReplicates["bAverageOfScores"], allReplicates["mAverageOfScores"]))
+        SumsKs.append(stats.ks_2samp(allReplicates["bSumOfScores"], allReplicates["mSumOfScores"]))
+
         allReplicates.drop(allReplicates.index, inplace=True)
 
 dict = {'rewardGroupModes': rewardGroupModes,
@@ -121,7 +133,12 @@ dict = {'rewardGroupModes': rewardGroupModes,
         'mMeanMinimums': mMeanMinimums,
         'mMeanMaximums': mMeanMaximums,
         'mMeanAverages': mMeanAverages,
-        'mMeanSums': mMeanSums}  
+        'mMeanSums': mMeanSums,
+        'MinimumsKs' : MinimumsKs,
+        'MaximumsKs' : MaximumsKs,
+        'AveragesKs' : AveragesKs,
+        'SumsKs' : SumsKs
+}  
     
 beepStatistics = pd.DataFrame(dict)
 
