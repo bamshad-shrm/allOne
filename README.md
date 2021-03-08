@@ -12,5 +12,5 @@ The folders follow the report's structure, and therefore if you read it (especia
 | Foder | Description |
 | --- | --- |
 | Experiments | The codes that we used for making the thesis experiments are located in this folder. The project is done by the usage of the Modular Agent-Based Evolution platform (MABE) framework, which is written in C++. The main part which defines the experiment is in OFAAFOWorld folder that is located in the world directory. To understand the development, you should check the MABE's documentation on this link: https://github.com/Hintzelab/MABE/wiki |
-| git diff | Show file differences that haven't been staged |
+| Data | It contains the data that I gained from the experiments using the MABE framework. It has four subfolders. To understand the CSV files' structure (in beep, mov and lod folders), you should read chapter 2.2 (Data Description and Format of Output Files) of the report. All the CSV files in those three subfolders are modified according to the research methodology. In the folder called "original," you can find the untouched files. |
 
