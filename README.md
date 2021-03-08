@@ -8,7 +8,9 @@ Also, you can directly download it from the repository.
 
 The folders follow the report's structure, and therefore if you read it (especially the second and third chapters), you will understand how they are organized. However, to make it easier for you, I have explained them briefly in the following table:
 
-----------------------------------
-|      |                         |
-----------------------------------
+
+|Folder Name|Folder explanation|
+--------------------------------
+|a          |b                 |
+|c          |d                 |
 
