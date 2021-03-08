@@ -9,8 +9,12 @@ Also, you can directly download it from the repository.
 The folders follow the report's structure, and therefore if you read it (especially the second and third chapters), you will understand how they are organized. However, to make it easier for you, I have explained them briefly in the following table:
 
 
-| Command | Description |
+| Foder | Description |
 | --- | --- |
-| git status | List all new or modified files |
+| Experiments | The codes that we used for making the thesis experiments are located in this folder. The project is done by the usage of the Modular Agent-Based Evolution platform (MABE) framework, which is written in C++. The main part which defines the experiment is in OFAAFOWorld folder that is located in the world directory. To understand the development, you should check the MABE's documentation on the next link:
+
+https://github.com/Hintzelab/MABE/wiki 
+
+|
 | git diff | Show file differences that haven't been staged |
 
