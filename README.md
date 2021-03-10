@@ -16,7 +16,9 @@ The folders follow the report's structure, and therefore if you read it (especia
 | Results | As its name suggests, it has the results created from Python codes using our data. Three subfolders are corresponding to the three categories (beep, mod, and lod). The graph folder contains evolution graphs that I made using the lod files. |
 
 The codes that we used for making the thesis experiments are located in this repository:
+
 https://github.com/ahnt/OOP_MABE
+
 The project is done by the usage of the Modular Agent-Based Evolution platform (MABE) framework, which is written in C++. The main part which defines the experiment is in OFAAFOWorld folder that is located in the world directory. 
 To understand the development, you should check the MABE's documentation on this link: https://github.com/Hintzelab/MABE/wiki
 
